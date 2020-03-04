@@ -34,8 +34,9 @@ InitCommand init命令,不会自己调用,在Run()里调用
 var InitCommand = cli.Command{
 	Name: "init",
 	Action: func(ctx *cli.Context) error {
-		command := ctx.Args().Get(0)
-		Init(command)
+		//command := ctx.Args().Get(0)
+		//Init(command)
+		Init()
 		return nil
 	},
 }

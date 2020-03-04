@@ -1,6 +1,7 @@
 package command
 
 import (
+	"io/ioutil"
 	"log"
 	"os"
 	"syscall"
@@ -9,7 +10,10 @@ import (
 /*
 Init 初始化容器,主要是挂载文件系统,然后运行cmd,替换当前进程为要执行的程序进程
 */
-func Init(command string) {
+//func Init(command string) {
+func Init(){
+
+	command:=readFromPipe()
 	log.Println("command:", command)
 
 	// TODO: 注意这里
@@ -40,4 +44,17 @@ func Init(command string) {
 	if err := syscall.Exec(command, argv, os.Environ()); err != nil {
 		log.Fatal("init.go333 ", err.Error())
 	}
+}
+
+/*
+从管道中读取命令
+uintptr(3)表示序号为3的文件描述符,本来有0,1,2三个,然后父进程传入了一个reader管道读端文件描述符
+ */
+func readFromPipe() string{
+	reader:=os.NewFile(uintptr(3),"pipe")
+	command,err:=ioutil.ReadAll(reader)
+	if err!=nil{
+		log.Fatal("init.go 从管道读数据失败,",err)
+	}
+	return string(command)
 }

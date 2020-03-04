@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9c3e8bb5-c6f7-411d-96e9-631ebd458334" name="Default Changelist" comment="" />
+    <list default="true" id="9c3e8bb5-c6f7-411d-96e9-631ebd458334" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/command.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/command.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/init.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/run.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/run.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,10 +21,14 @@
     </option>
   </component>
   <component name="GOROOT" path="$USER_HOME$/go/go1.14" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
   </component>
   <component name="ProjectId" id="1YekPECAa6GIKVjALbVS2KyGCaX" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -27,6 +37,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
@@ -37,6 +48,12 @@
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
     <proxy>direct</proxy>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="572" y="45" key="search.everywhere.popup" timestamp="1583313399736">
+      <screen x="67" y="33" width="1853" height="1047" />
+    </state>
+    <state x="572" y="45" key="search.everywhere.popup/67.33.1853.1047@67.33.1853.1047" timestamp="1583313399736" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
