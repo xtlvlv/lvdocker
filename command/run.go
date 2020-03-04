@@ -7,6 +7,8 @@ import (
 	"syscall"
 )
 
+const rootDir  = "/home/lvkou/E/Task/毕业设计/root"
+
 /*
 Run run调用函数
 */
@@ -32,6 +34,10 @@ func Run(command string, tty bool, memory string) {
 			syscall.CLONE_NEWUTS |
 			syscall.CLONE_NEWNS,
 	}
+	// 改变程序运行目录,执行/bin/sh后,用ls就会看到rootDir目录中的内容
+	// 后面可以把这个参数化,即用户指定执行目录
+	// 但这个只是改变了工作目录,使用pwd还是相对系统的目录,还需要使用pivot_root将这个目录变为根目录
+	cmd.Dir=rootDir+"/busybox"
 
 	// 这个是为了把读端传送给子进程,子进程就能通过reader从管道中读出数据,也就是要运行的程序
 	cmd.ExtraFiles=[]*os.File{reader}

@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 	"syscall"
 )
 
@@ -14,7 +15,7 @@ Init 初始化容器,主要是挂载文件系统,然后运行cmd,替换当前进
 func Init(){
 
 	command:=readFromPipe()
-	log.Println("command:", command)
+	log.Println("init.go18 command:", command)
 
 	// TODO: 注意这里
 	// https://github.com/xianlubird/mydocker/issues/41#issuecomment-478799767
@@ -25,6 +26,15 @@ func Init(){
 		log.Fatal("init.go22,", err)
 		return
 	}
+
+	pwd,err:=os.Getwd()
+	if err!=nil{
+		log.Fatal("init.go os.Getwd(),",err)
+	}
+	//log.Println("pwd:",pwd)
+	// 改变root
+	pivotRoot(pwd)
+
 	// MS_NOEXEC 本文件系统不允许执行其他程序
 	// MS_NOSUID 不允许 set-user-ID 和 set-group-ID
 	// MS_NODEV  默认参数
@@ -40,6 +50,9 @@ func Init(){
 	// if err=cmd.Run();err!=nil{
 	// 	log.Fatal("init.go1",err)
 	// }
+
+
+
 	argv := []string{command}
 	if err := syscall.Exec(command, argv, os.Environ()); err != nil {
 		log.Fatal("init.go333 ", err.Error())
@@ -57,4 +70,35 @@ func readFromPipe() string{
 		log.Fatal("init.go 从管道读数据失败,",err)
 	}
 	return string(command)
+}
+
+/*
+使用pivot_root实现根目录的转变
+ */
+func pivotRoot(root string) error {
+	if err:=syscall.Mount(root,root,"bind",syscall.MS_BIND|syscall.MS_REC,"");err!=nil{
+		log.Fatal("init.go pivot Mount ERROR",err)
+	}
+
+	pivotDir:=filepath.Join(root,".pivot_root")
+
+	if err:=os.Mkdir(pivotDir,0777);err!=nil{
+		log.Fatal("init.go pivot Mkdir ERROR",err)
+	}
+
+	if err:=syscall.PivotRoot(root,pivotDir);err!=nil{
+		log.Fatal("init.go pivot PivotRoot ERROR",err)
+	}
+
+	if err:=syscall.Chdir("/");err!=nil{
+		log.Fatal("init.go pivot Chdir ERROR",err)
+	}
+
+	pivotDir=filepath.Join("/",".pivot_root")
+
+	if err:=syscall.Unmount(pivotDir,syscall.MNT_DETACH);err!=nil{
+		log.Fatal("init.go pivot Unmount ERROR",err)
+	}
+
+	return os.Remove(pivotDir)
 }
