@@ -18,12 +18,17 @@ var RunCommand = cli.Command{
 			Name:  "m",
 			Usage: "内存限制",
 		},
+		cli.StringFlag{
+			Name:        "v",
+			Usage:       "enable volume",
+		},
 	},
 	Action: func(ctx *cli.Context) error {
 		tty := ctx.Bool("it")
 		memory := ctx.String("m")
+		volume:=ctx.String("v")
 		command := ctx.Args().Get(0)
-		Run(command, tty, memory)
+		Run(command, tty, memory,volume)
 		return nil
 	},
 }

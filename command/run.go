@@ -12,7 +12,7 @@ const rootDir  = "/home/lvkou/E/Task/毕业设计/root"
 /*
 Run run调用函数
 */
-func Run(command string, tty bool, memory string) {
+func Run(command string, tty bool, memory string,volume string) {
 
 	reader,writer,err:=os.Pipe()
 	if err!=nil{
@@ -39,9 +39,9 @@ func Run(command string, tty bool, memory string) {
 	// 但这个只是改变了工作目录,使用pwd还是相对系统的目录,还需要使用pivot_root将这个目录变为根目录,这样init
 	//cmd.Dir=rootDir+"/busybox"
 	log.Println("当前rootDir为:",rootDir)
-	NewWorkDir(rootDir)	// 这里如果出错会直接报错并停止
+	NewWorkDir(rootDir,volume)	// 这里如果出错会直接报错并停止
 	cmd.Dir=rootDir+"/mnt"
-	defer ClearWorkDir(rootDir)
+	defer ClearWorkDir(rootDir,volume)
 
 	// 这个是为了把读端传送给子进程,子进程就能通过reader从管道中读出数据,也就是要运行的程序
 	cmd.ExtraFiles=[]*os.File{reader}
@@ -86,10 +86,11 @@ func getRootPath(rootPath string) string{
 /*
 创建Init程序工作目录
  */
-func NewWorkDir(rootPath string) error {
+func NewWorkDir(rootPath,volume string) error {
 	CreateContainerLayer(rootPath)
 	CreateMntPoint(rootPath)
 	SetMountPoint(rootPath)
+	CreateVolume(rootPath,volume)
 	return nil
 }
 
@@ -133,7 +134,8 @@ func SetMountPoint(rootPath string) error {
 /*
 清理工作,删除创建的文件夹
  */
-func ClearWorkDir(rootPath string)  {
+func ClearWorkDir(rootPath,volume string)  {
+	ClearVolume(rootPath,volume)
 	ClearMountPoint(rootPath)
 	ClearWriterLayer(rootPath)
 }
