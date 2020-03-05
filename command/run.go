@@ -36,8 +36,9 @@ func Run(command string, tty bool, memory string) {
 	}
 	// 改变程序运行目录,执行/bin/sh后,用ls就会看到rootDir目录中的内容
 	// 后面可以把这个参数化,即用户指定执行目录,就是rootDir用户指定
-	// 但这个只是改变了工作目录,使用pwd还是相对系统的目录,还需要使用pivot_root将这个目录变为根目录
+	// 但这个只是改变了工作目录,使用pwd还是相对系统的目录,还需要使用pivot_root将这个目录变为根目录,这样init
 	//cmd.Dir=rootDir+"/busybox"
+	log.Println("当前rootDir为:",rootDir)
 	NewWorkDir(rootDir)	// 这里如果出错会直接报错并停止
 	cmd.Dir=rootDir+"/mnt"
 	defer ClearWorkDir(rootDir)
@@ -61,7 +62,6 @@ func Run(command string, tty bool, memory string) {
 	//defer subsystems.Remove()
 
 	cmd.Wait()
-	//ClearMountPoint(rootDir)
 }
 
 func sendInitCommand(command string,writer *os.File)  {
@@ -71,6 +71,7 @@ func sendInitCommand(command string,writer *os.File)  {
 		return
 	}
 	writer.Close()
+	log.Println("成功将命令发送给init,cmd:",command)
 }
 
 /*
@@ -100,6 +101,7 @@ func CreateContainerLayer(rootPath string) error {
 	if err:=os.Mkdir(writerLayer,0777);err!=nil{
 		log.Fatal("run.go writerLayer ERROR,",err)
 	}
+	log.Println("创建可写层:",writerLayer)
 	return nil
 }
 
@@ -111,6 +113,7 @@ func CreateMntPoint(rootPath string) error {
 	if err:=os.Mkdir(mnt,0777);err!=nil{
 		log.Fatal("run.go mnt ERROR,",err)
 	}
+	log.Println("创建临时挂载点:",mnt)
 	return nil
 }
 
@@ -123,8 +126,7 @@ func SetMountPoint(rootPath string) error {
 	if _,err:=exec.Command("mount","-t","aufs","-o",dirs,"none",mnt).CombinedOutput();err!=nil{
 		log.Fatal("run.go mount aufs ERROR,",err)
 	}
-	log.Println("SetMountPoint() 挂载成功,mnt:",mnt)
-	//fmt.Println("SetMountPoint() 挂载成功,mnt:",mnt)
+	log.Println("成功将busybox与writerLayer使用AUFS挂载到mnt上")
 	return nil
 }
 
@@ -151,9 +153,11 @@ func ClearMountPoint(rootPath string)  {
 	if err := cmd.Run(); err != nil {
 		log.Fatal("error when umount mnt ", mnt, err)
 	}
+	log.Println("成功卸载mnt目录")
 	if err:=os.RemoveAll(mnt);err!=nil{
 		log.Fatal("run.go remove mnt ERROR,",err)
 	}
+	log.Println("成功删除mnt目录:",mnt)
 }
 
 /*
@@ -164,6 +168,7 @@ func ClearWriterLayer(rootPath string)  {
 	if err:=os.RemoveAll(writerLayer);err != nil {
 		log.Fatal("run.go 删除可写层失败,",err)
 	}
+	log.Fatal("成功删除可写层:",writerLayer)
 }
 
 

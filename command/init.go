@@ -15,7 +15,6 @@ Init 初始化容器,主要是挂载文件系统,然后运行cmd,替换当前进
 func Init(){
 
 	command:=readFromPipe()
-	log.Println("init.go18 command:", command)
 
 	// TODO: 注意这里
 	// https://github.com/xianlubird/mydocker/issues/41#issuecomment-478799767
@@ -31,7 +30,7 @@ func Init(){
 	if err!=nil{
 		log.Fatal("init.go os.Getwd(),",err)
 	}
-	//log.Println("pwd:",pwd)
+	log.Println("当前工作目录:",pwd)
 	// 改变root
 	pivotRoot(pwd)
 
@@ -51,8 +50,7 @@ func Init(){
 	// 	log.Fatal("init.go1",err)
 	// }
 
-
-
+	log.Println("开始运行指定程序:",command)
 	argv := []string{command}
 	if err := syscall.Exec(command, argv, os.Environ()); err != nil {
 		log.Fatal("init.go333 ", err.Error())
@@ -69,6 +67,7 @@ func readFromPipe() string{
 	if err!=nil{
 		log.Fatal("init.go 从管道读数据失败,",err)
 	}
+	log.Println("Init 读取命令:", string(command))
 	return string(command)
 }
 
@@ -99,6 +98,6 @@ func pivotRoot(root string) error {
 	if err:=syscall.Unmount(pivotDir,syscall.MNT_DETACH);err!=nil{
 		log.Fatal("init.go pivot Unmount ERROR",err)
 	}
-
+	log.Println("改变当前目录为根目录成功")
 	return os.Remove(pivotDir)
 }
