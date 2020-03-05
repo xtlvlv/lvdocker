@@ -14,6 +14,10 @@ var RunCommand = cli.Command{
 			Name:  "it",
 			Usage: "指定在当前终端运行",
 		},
+		cli.BoolFlag{
+			Name:        "d",
+			Usage:       "后台运行,enable detach",
+		},
 		cli.StringFlag{
 			Name:  "m",
 			Usage: "内存限制",
@@ -25,6 +29,10 @@ var RunCommand = cli.Command{
 	},
 	Action: func(ctx *cli.Context) error {
 		tty := ctx.Bool("it")
+		d:=ctx.Bool("d")
+		if d{
+			tty=false
+		}
 		memory := ctx.String("m")
 		volume:=ctx.String("v")
 		command := ctx.Args().Get(0)

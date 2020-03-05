@@ -41,7 +41,7 @@ func Run(command string, tty bool, memory string,volume string) {
 	log.Println("当前rootDir为:",rootDir)
 	NewWorkDir(rootDir,volume)	// 这里如果出错会直接报错并停止
 	cmd.Dir=rootDir+"/mnt"
-	defer ClearWorkDir(rootDir,volume)
+	//defer ClearWorkDir(rootDir,volume)
 
 	// 这个是为了把读端传送给子进程,子进程就能通过reader从管道中读出数据,也就是要运行的程序
 	cmd.ExtraFiles=[]*os.File{reader}
@@ -61,7 +61,12 @@ func Run(command string, tty bool, memory string,volume string) {
 	//subsystems.Apply(strconv.Itoa(cmd.Process.Pid))
 	//defer subsystems.Remove()
 
-	cmd.Wait()
+	// 只有指定it的时候等待子进程结束,否则直接结束,子进程就由系统1进程管理
+	if tty{
+		cmd.Wait()
+		ClearWorkDir(rootDir,volume)	// 如果后台运行的话,这文件夹就不删除了
+	}
+
 }
 
 func sendInitCommand(command string,writer *os.File)  {
