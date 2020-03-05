@@ -35,9 +35,12 @@ func Run(command string, tty bool, memory string) {
 			syscall.CLONE_NEWNS,
 	}
 	// 改变程序运行目录,执行/bin/sh后,用ls就会看到rootDir目录中的内容
-	// 后面可以把这个参数化,即用户指定执行目录
+	// 后面可以把这个参数化,即用户指定执行目录,就是rootDir用户指定
 	// 但这个只是改变了工作目录,使用pwd还是相对系统的目录,还需要使用pivot_root将这个目录变为根目录
-	cmd.Dir=rootDir+"/busybox"
+	//cmd.Dir=rootDir+"/busybox"
+	NewWorkDir(rootDir)	// 这里如果出错会直接报错并停止
+	cmd.Dir=rootDir+"/mnt"
+	defer ClearWorkDir(rootDir)
 
 	// 这个是为了把读端传送给子进程,子进程就能通过reader从管道中读出数据,也就是要运行的程序
 	cmd.ExtraFiles=[]*os.File{reader}
@@ -58,6 +61,7 @@ func Run(command string, tty bool, memory string) {
 	//defer subsystems.Remove()
 
 	cmd.Wait()
+	//ClearMountPoint(rootDir)
 }
 
 func sendInitCommand(command string,writer *os.File)  {
@@ -68,3 +72,111 @@ func sendInitCommand(command string,writer *os.File)  {
 	}
 	writer.Close()
 }
+
+/*
+创建rootPath/busybox工作目录
+将busybox.tar解压到这个目录
+ */
+func getRootPath(rootPath string) string{
+
+	return ""
+}
+
+/*
+创建Init程序工作目录
+ */
+func NewWorkDir(rootPath string) error {
+	CreateContainerLayer(rootPath)
+	CreateMntPoint(rootPath)
+	SetMountPoint(rootPath)
+	return nil
+}
+
+/*
+生成rootPath/writerLayer文件夹
+ */
+func CreateContainerLayer(rootPath string) error {
+	writerLayer:=rootPath+"/writerLayer"
+	if err:=os.Mkdir(writerLayer,0777);err!=nil{
+		log.Fatal("run.go writerLayer ERROR,",err)
+	}
+	return nil
+}
+
+/*
+生成mnt文件夹
+ */
+func CreateMntPoint(rootPath string) error {
+	mnt:=rootPath+"/mnt"
+	if err:=os.Mkdir(mnt,0777);err!=nil{
+		log.Fatal("run.go mnt ERROR,",err)
+	}
+	return nil
+}
+
+/*
+挂载aufs文件系统
+ */
+func SetMountPoint(rootPath string) error {
+	dirs :="dirs="+rootPath+"/writerLayer:"+rootPath+"/busybox"
+	mnt := rootPath+"/mnt"
+	if _,err:=exec.Command("mount","-t","aufs","-o",dirs,"none",mnt).CombinedOutput();err!=nil{
+		log.Fatal("run.go mount aufs ERROR,",err)
+	}
+	log.Println("SetMountPoint() 挂载成功,mnt:",mnt)
+	//fmt.Println("SetMountPoint() 挂载成功,mnt:",mnt)
+	return nil
+}
+
+/*
+清理工作,删除创建的文件夹
+ */
+func ClearWorkDir(rootPath string)  {
+	ClearMountPoint(rootPath)
+	ClearWriterLayer(rootPath)
+}
+
+/*
+卸载挂载点,删除mnt目录
+ */
+func ClearMountPoint(rootPath string)  {
+	mnt:=rootPath+"/mnt"
+	//if _,err:=exec.Command("umount","-f",mnt).CombinedOutput();err!=nil{
+	//	log.Println("umount path:",mnt)
+	//	log.Fatal("run.go umount ERROR,",err)
+	//}
+	cmd := exec.Command("umount", mnt)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		log.Fatal("error when umount mnt ", mnt, err)
+	}
+	if err:=os.RemoveAll(mnt);err!=nil{
+		log.Fatal("run.go remove mnt ERROR,",err)
+	}
+}
+
+/*
+删除可写层
+ */
+func ClearWriterLayer(rootPath string)  {
+	writerLayer:=rootPath+"/writerLayer"
+	if err:=os.RemoveAll(writerLayer);err != nil {
+		log.Fatal("run.go 删除可写层失败,",err)
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

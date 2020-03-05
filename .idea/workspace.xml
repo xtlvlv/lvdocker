@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9c3e8bb5-c6f7-411d-96e9-631ebd458334" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/init.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/run.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/run.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modfinal" beforeDir="false" afterPath="$PROJECT_DIR$/modfinal" afterDir="false" />
     </list>
@@ -49,10 +48,10 @@
     <proxy>direct</proxy>
   </component>
   <component name="WindowStateProjectService">
-    <state x="572" y="45" key="search.everywhere.popup" timestamp="1583313399736">
+    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup" timestamp="1583372696492">
       <screen x="67" y="33" width="1853" height="1047" />
     </state>
-    <state x="572" y="45" key="search.everywhere.popup/67.33.1853.1047@67.33.1853.1047" timestamp="1583313399736" />
+    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup/67.33.1853.1047@67.33.1853.1047" timestamp="1583372696492" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
