@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strconv"
 	"syscall"
 )
 
@@ -12,7 +13,7 @@ const rootDir  = "/home/lvkou/E/Task/毕业设计/root"
 /*
 Run run调用函数
 */
-func Run(command string, tty bool, memory string,volume string) {
+func Run(command string, tty bool, memory,volume,containerName string) {
 
 	reader,writer,err:=os.Pipe()
 	if err!=nil{
@@ -47,6 +48,7 @@ func Run(command string, tty bool, memory string,volume string) {
 	cmd.ExtraFiles=[]*os.File{reader}
 	sendInitCommand(command,writer)
 
+
 	if tty {
 		cmd.Stderr = os.Stderr
 		cmd.Stdin = os.Stdin
@@ -61,10 +63,19 @@ func Run(command string, tty bool, memory string,volume string) {
 	//subsystems.Apply(strconv.Itoa(cmd.Process.Pid))
 	//defer subsystems.Remove()
 
+	id:=ContainerUUID()
+	if containerName==""{
+		containerName=id
+	}
+	//RecordContainerInfo("测试",containerName,id,command)
+	RecordContainerInfo(strconv.Itoa(cmd.Process.Pid),containerName,id,command)
+
 	// 只有指定it的时候等待子进程结束,否则直接结束,子进程就由系统1进程管理
 	if tty{
 		cmd.Wait()
+		ClearContainerInfo(containerName)
 		ClearWorkDir(rootDir,volume)	// 如果后台运行的话,这文件夹就不删除了
+
 	}
 
 }
@@ -175,7 +186,7 @@ func ClearWriterLayer(rootPath string)  {
 	if err:=os.RemoveAll(writerLayer);err != nil {
 		log.Fatal("run.go 删除可写层失败,",err)
 	}
-	log.Fatal("成功删除可写层:",writerLayer)
+	log.Println("成功删除可写层:",writerLayer)
 }
 
 

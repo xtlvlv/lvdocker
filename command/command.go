@@ -26,6 +26,10 @@ var RunCommand = cli.Command{
 			Name:        "v",
 			Usage:       "enable volume",
 		},
+		cli.StringFlag{
+			Name:        "name",
+			Usage:       "指定容器名字",
+		},
 	},
 	Action: func(ctx *cli.Context) error {
 		tty := ctx.Bool("it")
@@ -35,8 +39,10 @@ var RunCommand = cli.Command{
 		}
 		memory := ctx.String("m")
 		volume:=ctx.String("v")
+		containerName:=ctx.String("name")
 		command := ctx.Args().Get(0)
-		Run(command, tty, memory,volume)
+
+		Run(command, tty, memory,volume,containerName)
 		return nil
 	},
 }
@@ -50,6 +56,17 @@ var InitCommand = cli.Command{
 		//command := ctx.Args().Get(0)
 		//Init(command)
 		Init()
+		return nil
+	},
+}
+
+/*
+list命令,列出容器信息
+ */
+var ListCommand=cli.Command{
+	Name:                   "ps",
+	Action: func(ctx *cli.Context) error{
+		List()
 		return nil
 	},
 }
