@@ -1,6 +1,7 @@
 package command
 
 import (
+	"fmt"
 	"github.com/urfave/cli"
 )
 
@@ -69,4 +70,21 @@ var ListCommand=cli.Command{
 		List()
 		return nil
 	},
+}
+
+/*
+logs命令,查看容器日志
+ */
+var LogsCommand  =  cli.Command{
+	Name:                   "logs",
+	Action: func(ctx *cli.Context) error{
+		if len(ctx.Args())<1{
+			fmt.Println("参数过少,请加上容器名字")
+			return nil
+		}
+		containerName:=ctx.Args().Get(0)
+		Logs(containerName)
+		return nil
+	},
+
 }

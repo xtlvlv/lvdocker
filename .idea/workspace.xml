@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c3e8bb5-c6f7-411d-96e9-631ebd458334" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/command/containerInfo.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/command/list.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/command/log.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/command.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/command.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/containerInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/containerInfo.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/run.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/run.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modfinal" beforeDir="false" afterPath="$PROJECT_DIR$/modfinal" afterDir="false" />
@@ -52,9 +52,9 @@
     <proxy>direct</proxy>
   </component>
   <component name="WindowStateProjectService">
-    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup" timestamp="1583463438480">
+    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup" timestamp="1583484895840">
       <screen x="67" y="33" width="1853" height="1047" />
     </state>
-    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup/67.33.1853.1047@67.33.1853.1047" timestamp="1583463438480" />
+    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup/67.33.1853.1047@67.33.1853.1047" timestamp="1583484895840" />
   </component>
 </project>

@@ -48,11 +48,19 @@ func Run(command string, tty bool, memory,volume,containerName string) {
 	cmd.ExtraFiles=[]*os.File{reader}
 	sendInitCommand(command,writer)
 
+	id:=ContainerUUID()
+	if containerName==""{
+		containerName=id
+	}
 
 	if tty {
 		cmd.Stderr = os.Stderr
 		cmd.Stdin = os.Stdin
 		cmd.Stdout = os.Stdout
+	}else {
+		logFile:=GetLogFile(containerName)
+		cmd.Stdout=logFile
+		cmd.Stderr=logFile
 	}
 
 	/* Start()非阻塞运行 */
@@ -63,10 +71,7 @@ func Run(command string, tty bool, memory,volume,containerName string) {
 	//subsystems.Apply(strconv.Itoa(cmd.Process.Pid))
 	//defer subsystems.Remove()
 
-	id:=ContainerUUID()
-	if containerName==""{
-		containerName=id
-	}
+
 	//RecordContainerInfo("测试",containerName,id,command)
 	RecordContainerInfo(strconv.Itoa(cmd.Process.Pid),containerName,id,command)
 
@@ -75,7 +80,6 @@ func Run(command string, tty bool, memory,volume,containerName string) {
 		cmd.Wait()
 		ClearContainerInfo(containerName)
 		ClearWorkDir(rootDir,volume)	// 如果后台运行的话,这文件夹就不删除了
-
 	}
 
 }

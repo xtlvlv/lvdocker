@@ -10,6 +10,7 @@ import (
 	"os"
 	"text/tabwriter"
 	"time"
+	"modfinal/cgroups/subsystems"
 )
 
 type ContainerInfo struct {
@@ -53,7 +54,7 @@ func ContainerUUID() string {
 存储容器信息
  */
 func RecordContainerInfo( pid,containerName,id,command string){
-	log.Println("开始record Info")
+
 	var containerInfo *ContainerInfo
 	containerInfo=&ContainerInfo{
 		Pid:        pid,
@@ -63,7 +64,7 @@ func RecordContainerInfo( pid,containerName,id,command string){
 		CreateTime: time.Now().Format("2006-01-02 15:04:05"),
 		Status:     RUNNING,
 	}
-	log.Println("结束record Info")
+
 	jsonInfo,err:=json.Marshal(containerInfo)
 	if err!=nil{
 		log.Fatal("containerInfo.go json序列化失败",err)
@@ -71,8 +72,12 @@ func RecordContainerInfo( pid,containerName,id,command string){
 	log.Printf("容器信息 jsonInfo:%s\n",string(jsonInfo))
 	location:=fmt.Sprintf(INFOLOCATION,containerName)
 	file := location+"/"+CONFIGNAME
-	if err:=os.Mkdir(location,0622);err != nil{
-		log.Fatal("containerInfo.go 创建容器信息目录失败",err)
+	exist,_:=subsystems.PathExists(location)
+	// 创建日志文件在之前执行,可能会先创建目录
+	if !exist{
+		if err:=os.Mkdir(location,0622);err != nil{
+			log.Fatal("containerInfo.go 创建容器信息目录失败",err)
+		}
 	}
 	if err:=ioutil.WriteFile(file,[]byte(jsonInfo),0622);err!=nil{
 		log.Fatal("containerInfo.go 写入容器配置文件失败",err)
