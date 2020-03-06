@@ -39,9 +39,9 @@ func Run(command string, tty bool, memory,volume,containerName string) {
 	// 后面可以把这个参数化,即用户指定执行目录,就是rootDir用户指定
 	// 但这个只是改变了工作目录,使用pwd还是相对系统的目录,还需要使用pivot_root将这个目录变为根目录,这样init
 	//cmd.Dir=rootDir+"/busybox"
-	containerRootDir:=rootDir+"/"+containerName
+	containerRootDir:=rootDir+"/mnt/"+containerName
 	log.Println("当前rootDir为:",rootDir)
-	NewWorkDir(containerRootDir,containerName,volume)	// 这里如果出错会直接报错并停止
+	NewWorkDir(rootDir,containerName,volume)	// 这里如果出错会直接报错并停止
 	cmd.Dir=containerRootDir
 	//defer ClearWorkDir(rootDir,volume)
 

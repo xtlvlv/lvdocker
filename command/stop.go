@@ -27,7 +27,9 @@ func Stop(containerName string,tty bool)  {
 	}
 	if !tty{	// 后台运行的程序才杀进程
 		if err:=syscall.Kill(pid,syscall.SIGTERM);err!=nil{
-			log.Fatal("stop.go kill ERROR,",err)
+			//log.Fatal("stop.go kill ERROR,",err)
+			log.Println("stop.go kill ERROR,",err)
+			// 这里进程太容易出错了,先不Fatel
 		}
 	}
 
