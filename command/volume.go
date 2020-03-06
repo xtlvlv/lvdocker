@@ -12,10 +12,10 @@ import (
 根据命令行的 -v /root/hostVolume:/myVolume 命令把hostVolume挂载到myVolume上
 如果文件夹不存在,要创建
  */
-func CreateVolume(rootPath,volume string) error {
+func CreateVolume(rootPath,volume,containerName string) error {
 
 	if volume!=""{
-		containerMntPath := rootPath+"/mnt"
+		containerMntPath := rootPath+"/mnt/"+containerName
 		// 宿主机路径要绝对路径或相对路径
 		hostPath := strings.Split(volume,":")[0]
 		exist,_:=subsystems.PathExists(hostPath)
@@ -43,9 +43,9 @@ func CreateVolume(rootPath,volume string) error {
 /*
 卸载volume,并删除相应文件夹
  */
-func ClearVolume(rootPath,volume string){
+func ClearVolume(rootPath,containerName,volume string){
 	if volume!=""{
-		containerMntPath:=rootPath+"/mnt"
+		containerMntPath:=rootPath+"/mnt/"+containerName
 		mountPath:=strings.Split(volume,":")[1]
 		containerPath:=containerMntPath+mountPath
 		if _,err:=exec.Command("umount","-f",containerPath).CombinedOutput();err!=nil{

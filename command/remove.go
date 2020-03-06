@@ -14,7 +14,7 @@ func Remove(containerName string)  {
 	}
 	//RemoveContainerInfo(containerInfo)
 	ClearContainerInfo(containerInfo.Name)
-	ClearWorkDir(containerInfo.RootPath,containerInfo.Volume)
+	ClearWorkDir(containerInfo.RootPath,containerName,containerInfo.Volume)
 	log.Println("成功删除容器:",containerInfo.Name)
 }
 
