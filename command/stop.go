@@ -14,7 +14,7 @@ import (
 1. 找到进程pid杀掉进程
 2. 改变配置文件中容器的状态为stop
  */
-func Stop(containerName string)  {
+func Stop(containerName string,tty bool)  {
 	containerInfo,_:=GetContainerInfo(containerName)
 
 	if containerInfo.Pid==""{
@@ -25,9 +25,12 @@ func Stop(containerName string)  {
 	if err!=nil{
 		log.Fatal("stop.go ",err)
 	}
-	if err:=syscall.Kill(pid,syscall.SIGTERM);err!=nil{
-		log.Fatal("stop.go kill ERROR,",err)
+	if !tty{	// 后台运行的程序才杀进程
+		if err:=syscall.Kill(pid,syscall.SIGTERM);err!=nil{
+			log.Fatal("stop.go kill ERROR,",err)
+		}
 	}
+
 	containerInfo.Status=STOP
 	containerInfo.Pid=""
 	UpdateContainerInfo(containerInfo)

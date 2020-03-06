@@ -100,7 +100,7 @@ var StopCommand=cli.Command{
 			return nil
 		}
 		containerName:=ctx.Args().Get(0)
-		Stop(containerName)
+		Stop(containerName,false)	//如果是前台程序,退出后要用户自己保证不调用stop,实际上调用也没事,只是报错退出
 		return nil
 	},
 }

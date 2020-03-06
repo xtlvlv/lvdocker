@@ -10,7 +10,7 @@ func Remove(containerName string)  {
 	containerInfo,_:=GetContainerInfo(containerName)
 
 	if containerInfo.Status!=STOP{
-		Stop(containerName)	//先停止再删除
+		Stop(containerName,false)	//先停止再删除
 	}
 	//RemoveContainerInfo(containerInfo)
 	ClearContainerInfo(containerInfo.Name)
