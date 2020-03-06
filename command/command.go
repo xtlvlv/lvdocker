@@ -88,3 +88,19 @@ var LogsCommand  =  cli.Command{
 	},
 
 }
+
+/*
+stop命令,停止容器
+ */
+var StopCommand=cli.Command{
+	Name:                   "stop",
+	Action: func(ctx *cli.Context) error{
+		if len(ctx.Args())<1{
+			fmt.Println("缺少容器名字")
+			return nil
+		}
+		containerName:=ctx.Args().Get(0)
+		Stop(containerName)
+		return nil
+	},
+}

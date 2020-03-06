@@ -73,7 +73,7 @@ func Run(command string, tty bool, memory,volume,containerName string) {
 
 
 	//RecordContainerInfo("测试",containerName,id,command)
-	RecordContainerInfo(strconv.Itoa(cmd.Process.Pid),containerName,id,command)
+	RecordContainerInfo(strconv.Itoa(cmd.Process.Pid),containerName,id,command,volume,rootDir)
 
 	// 只有指定it的时候等待子进程结束,否则直接结束,子进程就由系统1进程管理
 	if tty{

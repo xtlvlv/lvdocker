@@ -20,11 +20,13 @@ type ContainerInfo struct {
 	Command 	string	`json:"command"`
 	CreateTime	string	`json:"createTime"`
 	Status		string	`json:"status"`
+	Volume		string	`json:"volume"`
+	RootPath	string	`json:"rootPath"`
 }
 
 var (
 	RUNNING		string = "running"
-	//STOP		string = "stoped"
+	STOP		string = "stoped"
 	//EXIT		string = "exited"
 	CONTAINS	string = "/home/lvkou/E/Task/毕业设计/root/containers"
 	INFOLOCATION	string = "/home/lvkou/E/Task/毕业设计/root/containers/%s"	// 存储容器信息的文件,%s是容器名字
@@ -53,7 +55,7 @@ func ContainerUUID() string {
 /*
 存储容器信息
  */
-func RecordContainerInfo( pid,containerName,id,command string){
+func RecordContainerInfo( pid,containerName,id,command,volume,rootPath string){
 
 	var containerInfo *ContainerInfo
 	containerInfo=&ContainerInfo{
@@ -63,6 +65,8 @@ func RecordContainerInfo( pid,containerName,id,command string){
 		Command:    command,
 		CreateTime: time.Now().Format("2006-01-02 15:04:05"),
 		Status:     RUNNING,
+		Volume:		volume,
+		RootPath:	rootPath,
 	}
 
 	jsonInfo,err:=json.Marshal(containerInfo)
