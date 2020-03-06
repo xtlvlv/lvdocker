@@ -78,10 +78,13 @@ func Run(command string, tty bool, memory,volume,containerName string) {
 	// 只有指定it的时候等待子进程结束,否则直接结束,子进程就由系统1进程管理
 	if tty{
 		cmd.Wait()
+
+		// 前台运行的话,退出的时候只把容器信息删了,要删除镜像单独用rm命令
 		ClearContainerInfo(containerName)
-		ClearWorkDir(rootDir,volume)	// 如果后台运行的话,这文件夹就不删除了
+		ClearWorkDir(rootDir,volume)
 	}
 
+	// 后台运行的文件需要用rm命令删除
 }
 
 func sendInitCommand(command string,writer *os.File)  {

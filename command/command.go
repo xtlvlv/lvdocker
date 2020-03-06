@@ -104,3 +104,19 @@ var StopCommand=cli.Command{
 		return nil
 	},
 }
+
+/*
+rm命令,删除容器
+ */
+var RemoveCommand  = cli.Command{
+	Name:                   "rm",
+	Action: func(ctx *cli.Context) error{
+		if len(ctx.Args())<1{
+			fmt.Println("缺少容器名字")
+			return nil
+		}
+		containerName:=ctx.Args().Get(0)
+		Remove(containerName)
+		return nil
+	},
+}
