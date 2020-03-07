@@ -120,3 +120,20 @@ var RemoveCommand  = cli.Command{
 		return nil
 	},
 }
+
+/*
+commit命令,保存镜像
+ */
+var CommitCommand=cli.Command{
+	Name:                   "commit",
+	Action: func(ctx *cli.Context) error{
+		if len(ctx.Args())<2{
+			fmt.Println("缺少容器名字")
+			return nil
+		}
+		containerName:=ctx.Args().Get(0)
+		imageName:=ctx.Args().Get(1)
+		Commit(containerName,imageName)
+		return nil
+	},
+}
