@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c3e8bb5-c6f7-411d-96e9-631ebd458334" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/network/bridgeDriver.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/network/ipam.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/network/network.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/command.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/command.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/containerInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/containerInfo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network/network.go" beforeDir="false" afterPath="$PROJECT_DIR$/network/network.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +48,7 @@
     <property name="configurable.Project.GOPATH.is.expanded" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
-    <property name="settings.editor.selected.configurable" value="com.goide.configuration.GoLibrariesConfigurableProvider" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.tabs" />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -68,13 +66,13 @@
       <screen x="67" y="33" width="1853" height="1047" />
     </state>
     <state x="723" y="257" width="530" height="599" key="FileChooserDialogImpl/67.33.1853.1047@67.33.1853.1047" timestamp="1584067104203" />
-    <state x="351" y="103" width="1284" height="906" key="SettingsEditor" timestamp="1584067106729">
+    <state x="351" y="103" width="1284" height="906" key="SettingsEditor" timestamp="1584193394351">
       <screen x="67" y="33" width="1853" height="1047" />
     </state>
-    <state x="351" y="103" width="1284" height="906" key="SettingsEditor/67.33.1853.1047@67.33.1853.1047" timestamp="1584067106729" />
-    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup" timestamp="1584174041918">
+    <state x="351" y="103" width="1284" height="906" key="SettingsEditor/67.33.1853.1047@67.33.1853.1047" timestamp="1584193394351" />
+    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup" timestamp="1584193391178">
       <screen x="67" y="33" width="1853" height="1047" />
     </state>
-    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup/67.33.1853.1047@67.33.1853.1047" timestamp="1584174041918" />
+    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup/67.33.1853.1047@67.33.1853.1047" timestamp="1584193391178" />
   </component>
 </project>

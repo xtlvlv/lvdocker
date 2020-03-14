@@ -3,6 +3,8 @@ package command
 import (
 	"fmt"
 	"github.com/urfave/cli"
+	"log"
+	"modfinal/network"
 )
 
 /*
@@ -135,5 +137,62 @@ var CommitCommand=cli.Command{
 		imageName:=ctx.Args().Get(1)
 		Commit(containerName,imageName)
 		return nil
+	},
+}
+
+/*
+network命令,操作网络
+ */
+var NetworkCommand=cli.Command{
+	Name:                   "network",
+	Subcommands:[]cli.Command{
+		{
+			Name:"create",
+			Flags:[]cli.Flag{
+				cli.StringFlag{
+					Name:        "driver",
+					Usage:"network driver",
+				},
+				cli.StringFlag{
+					Name:        "subnet",
+					Usage:"subnet driver",
+				},
+			},
+			Action: func(context *cli.Context) error {
+				if len(context.Args())<1{
+					log.Fatal("缺少参数:network name")
+				}
+				network.Init()
+				err:=network.CreateNetwork(context.String("driver"),context.String("subnet"),context.Args()[0])
+				if err!=nil{
+					log.Fatal("command.go network create 失败,",err)
+				}
+				return nil
+			},
+		},
+		{
+			Name:"list",
+			Action: func(context *cli.Context) error {
+
+				network.Init()
+				network.ListNetwork()
+				return nil
+			},
+		},
+		{
+			Name:"remove",
+			Action: func(context *cli.Context) error {
+				if len(context.Args())<1{
+					log.Fatal("缺少参数:network name")
+				}
+				network.Init()
+				err:=network.DeleteNetwork(context.Args()[0])
+				if err!=nil{
+					log.Fatal("command.go network remove 失败,",err)
+				}
+				return nil
+			},
+		},
+
 	},
 }

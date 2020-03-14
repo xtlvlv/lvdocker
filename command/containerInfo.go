@@ -14,14 +14,15 @@ import (
 )
 
 type ContainerInfo struct {
-	Pid	string	`json:"pid"`
-	Id	string	`json:"id"`
-	Name 	string	`json:"name"`
-	Command 	string	`json:"command"`
+	Pid	string	`json:"pid"`					// 容器的init进程在宿主机的PID
+	Id	string	`json:"id"`						// 容器Id
+	Name 	string	`json:"name"`				// 容器名
+	Command 	string	`json:"command"`		// 容器内init运行命令
 	CreateTime	string	`json:"createTime"`
 	Status		string	`json:"status"`
-	Volume		string	`json:"volume"`
-	RootPath	string	`json:"rootPath"`
+	Volume		string	`json:"volume"`			// 容器的数据卷
+	RootPath	string	`json:"rootPath"`		// 容器的操作目录
+	PortMapping []string `json:"portmapping"`	// 端口映射
 }
 
 var (
