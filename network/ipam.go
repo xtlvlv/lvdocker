@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-const ipamDefaultAllocatorPath="/home/lvkou/E/Task/毕业设计/root/network/ipam/subnet.json"
+const ipamDefaultAllocatorPath="/home/lvkou/E/Task/毕业设计/root/ipam/subnet.json"
 
 // 存放IP地址分配信息
 type IPAM struct {

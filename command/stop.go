@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"modfinal/model"
 	"strconv"
 	"syscall"
 )
@@ -15,7 +16,7 @@ import (
 2. 改变配置文件中容器的状态为stop
  */
 func Stop(containerName string,tty bool)  {
-	containerInfo,_:=GetContainerInfo(containerName)
+	containerInfo,_:= model.GetContainerInfo(containerName)
 
 	if containerInfo.Pid==""{
 		log.Println("container not exist!")
@@ -33,16 +34,16 @@ func Stop(containerName string,tty bool)  {
 		}
 	}
 
-	containerInfo.Status=STOP
+	containerInfo.Status= model.STOP
 	containerInfo.Pid=""
 	UpdateContainerInfo(containerInfo)
 	log.Println("成功停止容器")
 }
 
-func UpdateContainerInfo(containerInfo *ContainerInfo){
+func UpdateContainerInfo(containerInfo *model.ContainerInfo){
 	jsonInfo,_:=json.Marshal(containerInfo)
-	location:=fmt.Sprintf(INFOLOCATION,containerInfo.Name)
-	file:=location+"/"+CONFIGNAME
+	location:=fmt.Sprintf(model.INFOLOCATION,containerInfo.Name)
+	file:=location+"/"+ model.CONFIGNAME
 	if err:=ioutil.WriteFile(file,[]byte(jsonInfo),0622);err!=nil{
 		log.Fatal("更新容器信息失败,",err)
 	}

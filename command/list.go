@@ -1,5 +1,7 @@
 package command
 
+import "modfinal/model"
+
 func List(){
-	ShowAllContainers()
+	model.ShowAllContainers()
 }

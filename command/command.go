@@ -33,9 +33,19 @@ var RunCommand = cli.Command{
 			Name:        "name",
 			Usage:       "指定容器名字",
 		},
+		cli.StringFlag{
+			Name:        "net",
+			Usage:       "container network",
+		},
+		cli.StringSliceFlag{
+			Name:      "p",
+			Usage:     "port mapping",
+		},
 	},
 	Action: func(ctx *cli.Context) error {
 		tty := ctx.Bool("it")
+		network := ctx.String("net")
+		portMapping := ctx.StringSlice("p")
 		d:=ctx.Bool("d")
 		if d{
 			tty=false
@@ -45,7 +55,7 @@ var RunCommand = cli.Command{
 		containerName:=ctx.String("name")
 		command := ctx.Args().Get(0)
 
-		Run(command, tty, memory,volume,containerName)
+		Run(command, tty, memory,volume,containerName,network,portMapping)
 		return nil
 	},
 }

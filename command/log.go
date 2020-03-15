@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"modfinal/model"
 	"os"
 )
 
@@ -20,7 +21,7 @@ func Logs(containerName string)  {
 创建log文件
  */
 func GetLogFile(containerName string) (*os.File) {
-	path := fmt.Sprintf(INFOLOCATION,containerName)
+	path := fmt.Sprintf(model.INFOLOCATION,containerName)
 	logPath:=path+"/"+CONTAINERLOGS
 	if err:=os.Mkdir(path,0622);err!=nil{
 		log.Fatal("log.go 创建log文件夹失败,",err)
@@ -38,7 +39,7 @@ func GetLogFile(containerName string) (*os.File) {
  */
 func ReadLogs(containerName string) string{
 
-	path := fmt.Sprintf(INFOLOCATION,containerName)
+	path := fmt.Sprintf(model.INFOLOCATION,containerName)
 	logPath:=path+"/"+CONTAINERLOGS
 	data,err:=ioutil.ReadFile(logPath)
 	if err!=nil{

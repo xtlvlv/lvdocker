@@ -4,7 +4,16 @@
     <list default="true" id="9c3e8bb5-c6f7-411d-96e9-631ebd458334" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/command.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/command.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/containerInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/containerInfo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/commit.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/commit.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/containerInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/containerInfo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/list.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/list.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/log.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/log.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/remove.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/remove.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/run.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/run.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/stop.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/stop.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modfinal" beforeDir="false" afterPath="$PROJECT_DIR$/modfinal" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network/network.go" beforeDir="false" afterPath="$PROJECT_DIR$/network/network.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,6 +59,11 @@
     <property name="last_opened_file_path" value="$USER_HOME$" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.tabs" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/model" />
+    </key>
+  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
@@ -70,9 +84,9 @@
       <screen x="67" y="33" width="1853" height="1047" />
     </state>
     <state x="351" y="103" width="1284" height="906" key="SettingsEditor/67.33.1853.1047@67.33.1853.1047" timestamp="1584193394351" />
-    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup" timestamp="1584193391178">
+    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup" timestamp="1584242420316">
       <screen x="67" y="33" width="1853" height="1047" />
     </state>
-    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup/67.33.1853.1047@67.33.1853.1047" timestamp="1584193391178" />
+    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup/67.33.1853.1047@67.33.1853.1047" timestamp="1584242420316" />
   </component>
 </project>

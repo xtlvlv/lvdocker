@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/vishvananda/netns"
 	"log"
-	"modfinal/command"
+	"modfinal/model"
 	"net"
 	"os"
 	"os/exec"
@@ -20,7 +20,7 @@ import "github.com/vishvananda/netlink"
 
 
 var(
-	defaultNetworkPath=" "
+	defaultNetworkPath="/home/lvkou/E/Task/毕业设计/root/network"
 	drivers=map[string]NetworkDriver{}
 	networks=map[string]*Network{}
 )
@@ -90,6 +90,7 @@ func (nw *Network)dump(dumpPath string) error {
 	if err!=nil{
 		log.Fatal("dump() 写入json失败,",err)
 	}
+	log.Println("成功把网络信息持久化到:",nwPath)
 	return nil
 }
 
@@ -108,6 +109,7 @@ func (nw *Network)load(dumpPath string) error {
 	if err!=nil{
 		log.Fatal("load() 解析json失败,",err)
 	}
+	log.Printf("成功把%s网络信息读入程序",dumpPath)
 	return nil
 }
 
@@ -133,7 +135,10 @@ func Init() error {
 	filepath.Walk(defaultNetworkPath, func(nwPath string, info os.FileInfo, err error) error {
 
 		// 如果是目录就跳过
-		if strings.HasSuffix(nwPath,"/"){
+		//if strings.HasSuffix(nwPath,"/"){
+		//	return nil
+		//}
+		if info.IsDir(){
 			return nil
 		}
 		_,nwName:=path.Split(nwPath)
@@ -142,11 +147,12 @@ func Init() error {
 			IpRange:    nil,
 			DriverName: "",
 		}
+		log.Printf("正在读取%s 文件,文件名:%s\n",nwPath,nwName)
 		nw.load(nwPath)
 		networks[nwName]=nw
 		return nil
 	})
-
+	log.Println("成功Init网络信息,把所有网络信息加载到程序中")
 	return nil
 }
 
@@ -163,6 +169,7 @@ func CreateNetwork(driver,subnet,name string) error {
 	cidr.IP=ip
 	nw,_:=drivers[driver].Create(cidr.String(),name)
 	nw.dump(defaultNetworkPath)
+	log.Printf("成功创建network,dirver:%s,subnet:%s,name:%s\n",driver,subnet,name)
 	return nil
 }
 
@@ -196,6 +203,7 @@ func DeleteNetwork(networkName string) error {
 	drivers[nw.DriverName].Delete(*nw)
 	// 从网络的配置目录中删除该网络对应的配置文件
 	nw.remove(defaultNetworkPath)
+	log.Printf("成功删除network,name:%s\n",networkName)
 	return nil
 }
 
@@ -213,10 +221,11 @@ func (nw *Network) remove(dumpPath string) error {
 	if err:=os.Remove(path.Join(dumpPath,nw.Name));err!=nil{
 		log.Fatal("network.go remove() error2,",err)
 	}
+	log.Printf("成功删除网络配置文件:%s\n",dumpPath)
 	return nil
 }
 
-func Connect(networkName string,cinfo *command.ContainerInfo) error {
+func Connect(networkName string,cinfo *model.ContainerInfo) error {
 	network,ok:=networks[networkName]
 	if !ok{
 		log.Fatal("No such network:",networkName)
@@ -241,10 +250,11 @@ func Connect(networkName string,cinfo *command.ContainerInfo) error {
 	// 配置端口映射信息,例如mydocker run -p 8080:80
 	configPortMapping(ep,cinfo)
 
+	log.Printf("成功Connect %s 到 %s 网络.\n",cinfo.Name,networkName)
 	return nil
 }
 
-func Disconnect(networkName string,cinfo *command.ContainerInfo) error {
+func Disconnect(networkName string,cinfo *model.ContainerInfo) error {
 	return nil
 }
 
@@ -255,7 +265,7 @@ func Disconnect(networkName string,cinfo *command.ContainerInfo) error {
 3. 返回值是一个函数指针,执行这个返回函数才会退出容器的网络空间,回归到宿主机的网络空间
  */
 
-func enterContainerNetns(enLink *netlink.Link,cinfo *command.ContainerInfo) func() {
+func enterContainerNetns(enLink *netlink.Link,cinfo *model.ContainerInfo) func() {
 
 	f,err:=os.OpenFile(fmt.Sprintf("/proc/%s/ns/net",cinfo.Pid),os.O_RDONLY,0)
 	if err!=nil{
@@ -292,7 +302,7 @@ func enterContainerNetns(enLink *netlink.Link,cinfo *command.ContainerInfo) func
 /*
 配置容器网络端点的地址和路由
  */
-func configEndpointIpAddressAndRoute(ep *EndPoint,cinfo *command.ContainerInfo) error {
+func configEndpointIpAddressAndRoute(ep *EndPoint,cinfo *model.ContainerInfo) error {
 	// Veth 的另一端
 	peerLink,err:=netlink.LinkByName(ep.Device.PeerName)
 	if err!=nil{
@@ -340,7 +350,7 @@ func configEndpointIpAddressAndRoute(ep *EndPoint,cinfo *command.ContainerInfo) 
 /*
 配置宿主机到容器的端口映射,不然容器无法访问宿主机外部
  */
-func configPortMapping(ep *EndPoint,cinfo *command.ContainerInfo) error {
+func configPortMapping(ep *EndPoint,cinfo *model.ContainerInfo) error {
 
 	// 遍历容器端口映射列表
 	for _,pm:=range ep.PortMapping{

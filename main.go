@@ -19,6 +19,7 @@ func main() {
 		command.StopCommand,
 		command.RemoveCommand,
 		command.CommitCommand,
+		command.NetworkCommand,
 	}
 	log.Println("lvdocker 开始运行")
 	if err := app.Run(os.Args); err != nil {

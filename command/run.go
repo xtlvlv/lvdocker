@@ -2,6 +2,8 @@ package command
 
 import (
 	"log"
+	"modfinal/model"
+	"modfinal/network"
 	"os"
 	"os/exec"
 	"strconv"
@@ -13,7 +15,7 @@ const rootDir  = "/home/lvkou/E/Task/毕业设计/root"
 /*
 Run run调用函数
 */
-func Run(command string, tty bool, memory,volume,containerName string) {
+func Run(command string, tty bool, memory,volume,containerName,nw string,portMapping []string) {
 
 	reader,writer,err:=os.Pipe()
 	if err!=nil{
@@ -49,7 +51,7 @@ func Run(command string, tty bool, memory,volume,containerName string) {
 	cmd.ExtraFiles=[]*os.File{reader}
 	sendInitCommand(command,writer)
 
-	id:=ContainerUUID()
+	id:= model.ContainerUUID()
 	if containerName==""{
 		containerName=id
 	}
@@ -68,13 +70,25 @@ func Run(command string, tty bool, memory,volume,containerName string) {
 	if err := cmd.Start(); err != nil {
 		log.Fatal("run.go1", err)
 	}
+
+	if nw!=""{
+		network.Init()
+		containerInfo:=&model.ContainerInfo{
+			Pid:         strconv.Itoa(cmd.Process.Pid),
+			Id:          id,
+			Name:        containerName,
+			PortMapping: portMapping,
+		}
+		network.Connect(nw,containerInfo)
+	}
+
 	//subsystems.Set(memory)
 	//subsystems.Apply(strconv.Itoa(cmd.Process.Pid))
 	//defer subsystems.Remove()
 
 
 	//RecordContainerInfo("测试",containerName,id,command)
-	RecordContainerInfo(strconv.Itoa(cmd.Process.Pid),containerName,id,command,volume,rootDir)
+	model.RecordContainerInfo(strconv.Itoa(cmd.Process.Pid),containerName,id,command,volume,rootDir)
 
 	// 只有指定it的时候等待子进程结束,否则直接结束,子进程就由系统1进程管理
 	if tty{

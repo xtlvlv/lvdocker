@@ -2,6 +2,7 @@ package command
 
 import (
 	"log"
+	"modfinal/model"
 	"os/exec"
 )
 
@@ -11,7 +12,7 @@ import (
 2. 打包mnt文件夹到指定目录
  */
 func Commit(containerName,imageName string)  {
-	containerInfo,_:=GetContainerInfo(containerName)
+	containerInfo,_:= model.GetContainerInfo(containerName)
 	mntPath:=containerInfo.RootPath+"/mnt/"+containerName
 	imageTar:=containerInfo.RootPath+"/images/"+imageName+".tar"
 	_,err:=exec.Command("tar","-czf",imageTar,"-C",mntPath,".").CombinedOutput()

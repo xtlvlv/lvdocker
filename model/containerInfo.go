@@ -1,11 +1,10 @@
-package command
+package model
 
 import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
-	"math"
 	"math/rand"
 	"os"
 	"text/tabwriter"
@@ -38,10 +37,19 @@ var (
 生成容器唯一ID
  */
 func ContainerUUID() string {
-	str:=time.Now().UnixNano()
-	containerId:=fmt.Sprintf("%d%d",str,int(math.Abs(float64(rand.Intn(10)))))
-	log.Println("生成containerId:",containerId)
-	return containerId
+	//str:=time.Now().UnixNano()
+	//containerId:=fmt.Sprintf("%d%d",str,int(math.Abs(float64(rand.Intn(10)))))
+	//log.Println("生成containerId:",containerId)
+	//return containerId
+
+	letterBytes := "1234567890"
+	rand.Seed(time.Now().UnixNano())
+	b:=make([]byte,10)
+	for i:=range b{
+		b[i]=letterBytes[rand.Intn(len(letterBytes))]
+	}
+	return string(b)
+
 }
 //
 //func writeUUID(uuid string)  {

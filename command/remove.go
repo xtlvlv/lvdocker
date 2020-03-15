@@ -3,17 +3,17 @@ package command
 import (
 
 	"log"
-
+	"modfinal/model"
 )
 
 func Remove(containerName string)  {
-	containerInfo,_:=GetContainerInfo(containerName)
+	containerInfo,_:= model.GetContainerInfo(containerName)
 
-	if containerInfo.Status!=STOP{
+	if containerInfo.Status!= model.STOP {
 		Stop(containerName,false)	//先停止再删除
 	}
 	//RemoveContainerInfo(containerInfo)
-	ClearContainerInfo(containerInfo.Name)
+	model.ClearContainerInfo(containerInfo.Name)
 	ClearWorkDir(containerInfo.RootPath,containerName,containerInfo.Volume)
 	log.Println("成功删除容器:",containerInfo.Name)
 }
