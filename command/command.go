@@ -12,6 +12,7 @@ RunCommand run 命令
 */
 var RunCommand = cli.Command{
 	Name: "run",
+	Usage:"run命令",
 	Flags: []cli.Flag{
 		cli.BoolFlag{
 			Name:  "it",
@@ -19,15 +20,15 @@ var RunCommand = cli.Command{
 		},
 		cli.BoolFlag{
 			Name:        "d",
-			Usage:       "后台运行,enable detach",
+			Usage:       "后台运行,enable detach,指定后台才有日志",
 		},
 		cli.StringFlag{
 			Name:  "m",
-			Usage: "内存限制",
+			Usage: "内存限制,格式为16m",
 		},
 		cli.StringFlag{
 			Name:        "v",
-			Usage:       "enable volume",
+			Usage:       "enable volume,指定宿主机的数据卷与容器目录",
 		},
 		cli.StringFlag{
 			Name:        "name",
@@ -39,7 +40,7 @@ var RunCommand = cli.Command{
 		},
 		cli.StringSliceFlag{
 			Name:      "p",
-			Usage:     "port mapping",
+			Usage:     "port mapping,指定端口映射",
 		},
 	},
 	Action: func(ctx *cli.Context) error {
@@ -65,6 +66,7 @@ InitCommand init命令,不会自己调用,在Run()里调用
 */
 var InitCommand = cli.Command{
 	Name: "init",
+	Usage:"初始化,主动调用没有意义",
 	Action: func(ctx *cli.Context) error {
 		//command := ctx.Args().Get(0)
 		//Init(command)
@@ -78,6 +80,7 @@ list命令,列出容器信息
  */
 var ListCommand=cli.Command{
 	Name:                   "ps",
+	Usage:"展示当前宿主机运行的容器",
 	Action: func(ctx *cli.Context) error{
 		List()
 		return nil
@@ -89,6 +92,7 @@ logs命令,查看容器日志
  */
 var LogsCommand  =  cli.Command{
 	Name:                   "logs",
+	Usage:"加上容器名字,查看该容器的日志,适用于后台运行的容器",
 	Action: func(ctx *cli.Context) error{
 		if len(ctx.Args())<1{
 			fmt.Println("参数过少,请加上容器名字")
@@ -106,6 +110,7 @@ stop命令,停止容器
  */
 var StopCommand=cli.Command{
 	Name:                   "stop",
+	Usage:"只是停止容器,没有删除",
 	Action: func(ctx *cli.Context) error{
 		if len(ctx.Args())<1{
 			fmt.Println("缺少容器名字")
@@ -122,6 +127,7 @@ rm命令,删除容器
  */
 var RemoveCommand  = cli.Command{
 	Name:                   "rm",
+	Usage:"删除容器,从宿主机删除对应的文件夹",
 	Action: func(ctx *cli.Context) error{
 		if len(ctx.Args())<1{
 			fmt.Println("缺少容器名字")
@@ -138,6 +144,7 @@ commit命令,保存镜像
  */
 var CommitCommand=cli.Command{
 	Name:                   "commit",
+	Usage:"保存镜像,把某个容器的mnt目录打包放到镜像仓库",
 	Action: func(ctx *cli.Context) error{
 		if len(ctx.Args())<2{
 			fmt.Println("缺少容器名字")
@@ -155,6 +162,7 @@ network命令,操作网络
  */
 var NetworkCommand=cli.Command{
 	Name:                   "network",
+	Usage:"通过子命令,创建删除展示网络",
 	Subcommands:[]cli.Command{
 		{
 			Name:"create",

@@ -23,6 +23,7 @@ func Set(content string) error {
 		log.Fatal("memeory.go 写入文件出错,",err)
 		return fmt.Errorf("ERROR:写入文件出错!\n")
 	}
+	log.Println("限制内存成功:",content)
 	return nil
 }
 
@@ -42,6 +43,7 @@ func Apply(pid string) error {
 		log.Fatal("memeory.go 写入pid出错,")
 		return fmt.Errorf("ERROR:写入pid出错!\n")
 	}
+	log.Println("把当前进程加入cgroup,当前进程:",pid)
 	return nil
 }
 

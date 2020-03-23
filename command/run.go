@@ -2,6 +2,7 @@ package command
 
 import (
 	"log"
+	"modfinal/cgroups/subsystems"
 	"modfinal/model"
 	"modfinal/network"
 	"os"
@@ -86,6 +87,10 @@ func Run(command string, tty bool, memory,volume,containerName,nw string,portMap
 	//subsystems.Apply(strconv.Itoa(cmd.Process.Pid))
 	//defer subsystems.Remove()
 
+	if memory!=""{
+		subsystems.Set(memory)
+		subsystems.Apply(strconv.Itoa(cmd.Process.Pid))
+	}
 
 	//RecordContainerInfo("测试",containerName,id,command)
 	model.RecordContainerInfo(strconv.Itoa(cmd.Process.Pid),containerName,id,command,volume,rootDir)
