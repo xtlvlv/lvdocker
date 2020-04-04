@@ -84,3 +84,7 @@ func (s *MemorySubsystem) Remove()error{
 	}
 	return nil
 }
+
+func (s *MemorySubsystem) Name() string {
+	return "memory"
+}

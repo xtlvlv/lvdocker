@@ -61,6 +61,9 @@ var RunCommand = cli.Command{
 			Resource:      &res,
 			SubsystemsIns: make([]subsystems.Subsystem,0),
 		}
+		if memory!=""{
+			cg.SubsystemsIns=append(cg.SubsystemsIns,&subsystems.MemorySubsystem{})
+		}
 		volume:=ctx.String("v")
 		containerName:=ctx.String("name")
 		command := ctx.Args().Get(0)

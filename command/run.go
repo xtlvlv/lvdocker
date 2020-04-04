@@ -104,7 +104,7 @@ func Run(command string, tty bool, cg cgroups.CgroupManager,volume,containerName
 		cmd.Wait()
 		// 要主动把容器停止,但是不用kill命令,
 		Stop(containerName,tty)
-
+		cg.Destroy()
 		// 用rm命令删除,退出的时候不直接删除
 		//ClearContainerInfo(containerName)
 		//ClearWorkDir(rootDir,volume)
