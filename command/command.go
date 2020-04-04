@@ -29,6 +29,10 @@ var RunCommand = cli.Command{
 			Usage: "内存限制,格式为16m",
 		},
 		cli.StringFlag{
+			Name:  "c",
+			Usage: "cpuset(核心数)限制,格式为0-7",
+		},
+		cli.StringFlag{
 			Name:        "v",
 			Usage:       "enable volume,指定宿主机的数据卷与容器目录",
 		},
@@ -54,8 +58,10 @@ var RunCommand = cli.Command{
 			tty=false
 		}
 		memory := ctx.String("m")
+		cpu:=ctx.String("c")
 		res:=subsystems.ResourceConfig{
 			MemoryLimit:memory,
+			CpuLimit:cpu,
 		}
 		cg:=cgroups.CgroupManager{
 			Resource:      &res,
@@ -63,6 +69,9 @@ var RunCommand = cli.Command{
 		}
 		if memory!=""{
 			cg.SubsystemsIns=append(cg.SubsystemsIns,&subsystems.MemorySubsystem{})
+		}
+		if cpu!=""{
+			cg.SubsystemsIns=append(cg.SubsystemsIns,&subsystems.CpuSubSystem{})
 		}
 		volume:=ctx.String("v")
 		containerName:=ctx.String("name")

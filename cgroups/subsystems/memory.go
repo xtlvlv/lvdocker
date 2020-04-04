@@ -16,20 +16,20 @@ type MemorySubsystem struct {
 设置内存的限制值
 1.就是在对应的cgroup中的memory.limit_in_bytes写入特定值
 */
-func Set(content string) error {
-	absolutePath:=""
-	if absolutePath=FindAbsolutePath("memory");absolutePath==""{
-		log.Fatal("memeory.go 路径出错,")
-		return fmt.Errorf("ERROR:absolutePath is empty!\n")
-	}
-	err := ioutil.WriteFile(path.Join(absolutePath,"memory.limit_in_bytes"),[]byte(content),0777)
-	if err!=nil{
-		log.Fatal("memeory.go 写入文件出错,",err)
-		return fmt.Errorf("ERROR:写入文件出错!\n")
-	}
-	log.Println("限制内存成功:",content)
-	return nil
-}
+//func Set(content string) error {
+//	absolutePath:=""
+//	if absolutePath=FindAbsolutePath("memory");absolutePath==""{
+//		log.Fatal("memeory.go 路径出错,")
+//		return fmt.Errorf("ERROR:absolutePath is empty!\n")
+//	}
+//	err := ioutil.WriteFile(path.Join(absolutePath,"memory.limit_in_bytes"),[]byte(content),0777)
+//	if err!=nil{
+//		log.Fatal("memeory.go 写入文件出错,",err)
+//		return fmt.Errorf("ERROR:写入文件出错!\n")
+//	}
+//	log.Println("限制内存成功:",content)
+//	return nil
+//}
 
 func (s *MemorySubsystem) Set(res *ResourceConfig) error {
 	if res.MemoryLimit!=""{
@@ -66,7 +66,7 @@ func (s *MemorySubsystem) Apply(pid string) error {
 		log.Fatal("memeory.go 写入pid出错,")
 		return fmt.Errorf("ERROR:写入pid出错!\n")
 	}
-	log.Println("把当前进程加入cgroup,当前进程:",pid)
+	log.Println("把当前进程加入memory cgroup,当前进程:",pid)
 	return nil
 }
 
@@ -74,6 +74,7 @@ func (s *MemorySubsystem) Apply(pid string) error {
 资源删除,在进程结束的时候把这个资源限制解除,其实就是把对应的文件夹删除
 */
 func (s *MemorySubsystem) Remove()error{
+
 	absolutePath:=""
 	absolutePath=FindAbsolutePath("memory")
 	if absolutePath==""{

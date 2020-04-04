@@ -6,6 +6,7 @@ const (
 
 type ResourceConfig struct {
 	MemoryLimit string
+	CpuLimit string
 }
 
 type Subsystem interface {
