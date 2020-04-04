@@ -2,7 +2,7 @@ package command
 
 import (
 	"log"
-	"modfinal/cgroups/subsystems"
+	"modfinal/cgroups"
 	"modfinal/model"
 	"modfinal/network"
 	"os"
@@ -16,7 +16,7 @@ const rootDir  = "/home/lvkou/E/Task/毕业设计/root"
 /*
 Run run调用函数
 */
-func Run(command string, tty bool, memory,volume,containerName,nw string,portMapping []string) {
+func Run(command string, tty bool, cg cgroups.CgroupManager,volume,containerName,nw string,portMapping []string) {
 
 	reader,writer,err:=os.Pipe()
 	if err!=nil{
@@ -87,10 +87,14 @@ func Run(command string, tty bool, memory,volume,containerName,nw string,portMap
 	//subsystems.Apply(strconv.Itoa(cmd.Process.Pid))
 	//defer subsystems.Remove()
 
-	if memory!=""{
-		subsystems.Set(memory)
-		subsystems.Apply(strconv.Itoa(cmd.Process.Pid))
-	}
+	//if memory!=""{
+	//	subsystems.Set(memory)
+	//	subsystems.Apply(strconv.Itoa(cmd.Process.Pid))
+	//}
+
+	cg.Set()	// 已经在config结构体中配置好限制资源
+	//defer cg.Destroy()	// 不能在这里销毁,应该在容器删除的时候销毁
+	cg.Apply(strconv.Itoa(cmd.Process.Pid))
 
 	//RecordContainerInfo("测试",containerName,id,command)
 	model.RecordContainerInfo(strconv.Itoa(cmd.Process.Pid),containerName,id,command,volume,rootDir)

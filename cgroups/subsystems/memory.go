@@ -8,6 +8,10 @@ import (
 	"path"
 )
 
+type MemorySubsystem struct {
+
+}
+
 /*
 设置内存的限制值
 1.就是在对应的cgroup中的memory.limit_in_bytes写入特定值
@@ -27,11 +31,30 @@ func Set(content string) error {
 	return nil
 }
 
+func (s *MemorySubsystem) Set(res *ResourceConfig) error {
+	if res.MemoryLimit!=""{
+		content:=res.MemoryLimit
+		absolutePath:=""
+		if absolutePath=FindAbsolutePath("memory");absolutePath==""{
+			log.Fatal("memeory.go 路径出错,")
+			return fmt.Errorf("ERROR:absolutePath is empty!\n")
+		}
+		err := ioutil.WriteFile(path.Join(absolutePath,"memory.limit_in_bytes"),[]byte(content),0777)
+		if err!=nil{
+			log.Fatal("memeory.go 写入文件出错,",err)
+			return fmt.Errorf("ERROR:写入文件出错!\n")
+		}
+		log.Println("限制内存成功:",content)
+	}
+
+	return nil
+}
+
 /*
 对进程应用这个限制
 1.把进程id加入到这个cgroup文件夹下的tasks文件中
 */
-func Apply(pid string) error {
+func (s *MemorySubsystem) Apply(pid string) error {
 	absolutePath:=""
 	absolutePath=FindAbsolutePath("memory")
 	if absolutePath==""{
@@ -50,7 +73,7 @@ func Apply(pid string) error {
 /*
 资源删除,在进程结束的时候把这个资源限制解除,其实就是把对应的文件夹删除
 */
-func Remove()error{
+func (s *MemorySubsystem) Remove()error{
 	absolutePath:=""
 	absolutePath=FindAbsolutePath("memory")
 	if absolutePath==""{

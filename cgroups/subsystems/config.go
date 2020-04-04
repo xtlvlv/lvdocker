@@ -4,4 +4,13 @@ const (
 	CgroupDirName = "lvdocker"
 )
 
-var tttt int = 1
+type ResourceConfig struct {
+	MemoryLimit string
+}
+
+type Subsystem interface {
+	Name() string
+	Set(res *ResourceConfig) error
+	Apply(pid string) error
+	Remove() error
+}

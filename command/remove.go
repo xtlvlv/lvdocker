@@ -1,9 +1,7 @@
 package command
 
 import (
-
 	"log"
-	"modfinal/cgroups/subsystems"
 	"modfinal/model"
 )
 
@@ -13,7 +11,7 @@ func Remove(containerName string)  {
 	if containerInfo.Status!= model.STOP {
 		Stop(containerName,false)	//先停止再删除
 	}
-	subsystems.Remove()	// 删除资源限制
+	//subsystems.Remove()	// 删除资源限制
 	//RemoveContainerInfo(containerInfo)
 	model.ClearContainerInfo(containerInfo.Name)
 	ClearWorkDir(containerInfo.RootPath,containerName,containerInfo.Volume)

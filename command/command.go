@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/urfave/cli"
 	"log"
+	"modfinal/cgroups"
+	"modfinal/cgroups/subsystems"
 	"modfinal/network"
 )
 
@@ -52,11 +54,18 @@ var RunCommand = cli.Command{
 			tty=false
 		}
 		memory := ctx.String("m")
+		res:=subsystems.ResourceConfig{
+			MemoryLimit:memory,
+		}
+		cg:=cgroups.CgroupManager{
+			Resource:      &res,
+			SubsystemsIns: make([]subsystems.Subsystem,0),
+		}
 		volume:=ctx.String("v")
 		containerName:=ctx.String("name")
 		command := ctx.Args().Get(0)
 
-		Run(command, tty, memory,volume,containerName,network,portMapping)
+		Run(command, tty, cg,volume,containerName,network,portMapping)
 		return nil
 	},
 }
