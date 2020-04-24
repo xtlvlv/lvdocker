@@ -14,7 +14,7 @@ func Remove(containerName string)  {
 	//subsystems.Remove()	// 删除资源限制
 	//RemoveContainerInfo(containerInfo)
 	model.ClearContainerInfo(containerInfo.Name)
-	ClearWorkDir(containerInfo.RootPath,containerName,containerInfo.Volume)
+	ClearWorkDir(containerInfo.RootPath,containerName,containerInfo.ImageName,containerInfo.Volume)
 	log.Println("成功删除容器:",containerInfo.Name)
 }
 

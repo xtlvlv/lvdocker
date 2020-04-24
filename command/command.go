@@ -41,6 +41,10 @@ var RunCommand = cli.Command{
 			Usage:       "指定容器名字",
 		},
 		cli.StringFlag{
+			Name:        "image",
+			Usage:       "指定容器镜像,如果不指定就用默认的busybox",
+		},
+		cli.StringFlag{
 			Name:        "net",
 			Usage:       "container network",
 		},
@@ -75,9 +79,10 @@ var RunCommand = cli.Command{
 		}
 		volume:=ctx.String("v")
 		containerName:=ctx.String("name")
+		imageName:=ctx.String("image")
 		command := ctx.Args().Get(0)
 
-		Run(command, tty, cg,volume,containerName,network,portMapping)
+		Run(command, tty, cg,volume,containerName,imageName,network,portMapping)
 		return nil
 	},
 }
@@ -233,5 +238,17 @@ var NetworkCommand=cli.Command{
 			},
 		},
 
+	},
+}
+
+/*
+web命令,打开浏览器
+*/
+var WebCommand  = cli.Command{
+	Name:                   "web",
+	Usage:"可视化查看宿主机容器运行状态",
+	Action: func(ctx *cli.Context) error{
+		web()
+		return nil
 	},
 }

@@ -16,7 +16,7 @@ const rootDir  = "/home/lvkou/E/Task/毕业设计/root"
 /*
 Run run调用函数
 */
-func Run(command string, tty bool, cg cgroups.CgroupManager,volume,containerName,nw string,portMapping []string) {
+func Run(command string, tty bool, cg cgroups.CgroupManager,volume,containerName,imageName,nw string,portMapping []string) {
 
 	reader,writer,err:=os.Pipe()
 	if err!=nil{
@@ -41,12 +41,16 @@ func Run(command string, tty bool, cg cgroups.CgroupManager,volume,containerName
 	// 改变程序运行目录,执行/bin/sh后,用ls就会看到rootDir目录中的内容
 	// 后面可以把这个参数化,即用户指定执行目录,就是rootDir用户指定
 	// 但这个只是改变了工作目录,使用pwd还是相对系统的目录,还需要使用pivot_root将这个目录变为根目录,这样init
-	//cmd.Dir=rootDir+"/busybox"
+
+	//containerRootDir:=rootDir+"/mnt/"+containerName
+	//log.Println("当前rootDir为:",rootDir)
+	//NewWorkDir(rootDir,containerName,volume)	// 这里如果出错会直接报错并停止
+	//cmd.Dir=containerRootDir
+
 	containerRootDir:=rootDir+"/mnt/"+containerName
 	log.Println("当前rootDir为:",rootDir)
-	NewWorkDir(rootDir,containerName,volume)	// 这里如果出错会直接报错并停止
+	NewWorkDir(rootDir,containerName,imageName,volume)	// 这里如果出错会直接报错并停止
 	cmd.Dir=containerRootDir
-	//defer ClearWorkDir(rootDir,volume)
 
 	// 这个是为了把读端传送给子进程,子进程就能通过reader从管道中读出数据,也就是要运行的程序
 	cmd.ExtraFiles=[]*os.File{reader}
@@ -97,7 +101,7 @@ func Run(command string, tty bool, cg cgroups.CgroupManager,volume,containerName
 	cg.Apply(strconv.Itoa(cmd.Process.Pid))
 
 	//RecordContainerInfo("测试",containerName,id,command)
-	model.RecordContainerInfo(strconv.Itoa(cmd.Process.Pid),containerName,id,command,volume,rootDir)
+	model.RecordContainerInfo(strconv.Itoa(cmd.Process.Pid),containerName,imageName,id,command,volume,rootDir)
 
 	// 只有指定it的时候等待子进程结束,否则直接结束,子进程就由系统1进程管理
 	if tty{

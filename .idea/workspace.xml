@@ -2,12 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c3e8bb5-c6f7-411d-96e9-631ebd458334" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/cgroups/subsystems/cpuset.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/command/web.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cgroups/subsystems/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/cgroups/subsystems/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cgroups/subsystems/memory.go" beforeDir="false" afterPath="$PROJECT_DIR$/cgroups/subsystems/memory.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/aufs.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/aufs.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/command.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/command.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/remove.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/remove.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/run.go" beforeDir="false" afterPath="$PROJECT_DIR$/command/run.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lvdocker" beforeDir="false" afterPath="$PROJECT_DIR$/lvdocker" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/containerInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/containerInfo.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,10 +72,10 @@
       <screen x="67" y="33" width="1853" height="1047" />
     </state>
     <state x="625" y="336" width="727" height="439" key="#com.intellij.fileTypes.FileTypeChooser/67.33.1853.1047@67.33.1853.1047" timestamp="1584066720711" />
-    <state x="723" y="257" width="530" height="599" key="FileChooserDialogImpl" timestamp="1584067104203">
+    <state x="723" y="257" width="530" height="599" key="FileChooserDialogImpl" timestamp="1587723983969">
       <screen x="67" y="33" width="1853" height="1047" />
     </state>
-    <state x="723" y="257" width="530" height="599" key="FileChooserDialogImpl/67.33.1853.1047@67.33.1853.1047" timestamp="1584067104203" />
+    <state x="723" y="257" width="530" height="599" key="FileChooserDialogImpl/67.33.1853.1047@67.33.1853.1047" timestamp="1587723983969" />
     <state x="351" y="103" width="1284" height="906" key="SettingsEditor" timestamp="1584193394351">
       <screen x="67" y="33" width="1853" height="1047" />
     </state>
@@ -81,5 +84,16 @@
       <screen x="67" y="33" width="1853" height="1047" />
     </state>
     <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup/67.33.1853.1047@67.33.1853.1047" timestamp="1584242420316" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/command/remove.go</url>
+          <line>2</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

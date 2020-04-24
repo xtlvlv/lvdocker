@@ -16,6 +16,7 @@ type ContainerInfo struct {
 	Pid	string	`json:"pid"`					// 容器的init进程在宿主机的PID
 	Id	string	`json:"id"`						// 容器Id
 	Name 	string	`json:"name"`				// 容器名
+	ImageName string `json:"image"`				// 镜像名
 	Command 	string	`json:"command"`		// 容器内init运行命令
 	CreateTime	string	`json:"createTime"`
 	Status		string	`json:"status"`
@@ -64,13 +65,14 @@ func ContainerUUID() string {
 /*
 存储容器信息
  */
-func RecordContainerInfo( pid,containerName,id,command,volume,rootPath string){
+func RecordContainerInfo( pid,containerName,imageName,id,command,volume,rootPath string){
 
 	var containerInfo *ContainerInfo
 	containerInfo=&ContainerInfo{
 		Pid:        pid,
 		Id:         id,
 		Name:       containerName,
+		ImageName:imageName,
 		Command:    command,
 		CreateTime: time.Now().Format("2006-01-02 15:04:05"),
 		Status:     RUNNING,
@@ -88,11 +90,11 @@ func RecordContainerInfo( pid,containerName,id,command,volume,rootPath string){
 	exist,_:=subsystems.PathExists(location)
 	// 创建日志文件在之前执行,可能会先创建目录
 	if !exist{
-		if err:=os.Mkdir(location,0622);err != nil{
+		if err:=os.Mkdir(location,0777);err != nil{
 			log.Fatal("containerInfo.go 创建容器信息目录失败",err)
 		}
 	}
-	if err:=ioutil.WriteFile(file,[]byte(jsonInfo),0622);err!=nil{
+	if err:=ioutil.WriteFile(file,[]byte(jsonInfo),0777);err!=nil{
 		log.Fatal("containerInfo.go 写入容器配置文件失败",err)
 	}
 }
